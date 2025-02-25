@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
   icons: {
@@ -25,7 +26,7 @@ export default function RootLayout({
           <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-grow container mx-auto px-4 py-8">
-              {children}
+              <TooltipProvider>{children}</TooltipProvider>
             </main>
             <Footer />
             <ToastContainer />
