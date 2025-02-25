@@ -22,16 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
-        {
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-grow container mx-auto px-4 py-8">
-              <TooltipProvider>{children}</TooltipProvider>
-            </main>
-            <Footer />
-            <ToastContainer />
-          </div>
-        }
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-grow container mx-auto px-4 py-8">
+            <TooltipProvider>{children}</TooltipProvider>
+          </main>
+          <Footer />
+          <ToastContainer />
+        </div>
       </body>
     </html>
   );
