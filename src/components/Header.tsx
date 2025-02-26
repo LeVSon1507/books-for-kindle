@@ -75,6 +75,11 @@ export const Header = () => {
                 iconSrc="/icon_app.svg"
                 label="Library"
               />
+              <NavButton
+                path="/add-book"
+                iconSrc="/kindle_books.svg"
+                label="Add book"
+              />
               {/* <NavButton path="/about" iconSrc="/about.svg" label="About" />
               <NavButton
                 path="/settings"

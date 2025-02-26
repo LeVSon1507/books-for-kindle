@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
@@ -27,7 +26,6 @@ export default function RootLayout({
           <main className="flex-grow container mx-auto px-4 py-8">
             <TooltipProvider>{children}</TooltipProvider>
           </main>
-          <Footer />
           <ToastContainer />
         </div>
       </body>

@@ -2,15 +2,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { BookCard } from "./BookCard";
-
-export interface Book {
-  id?: number;
-  title: string;
-  author?: string;
-  cover: string;
-  description?: string;
-  epubUrl?: string;
-}
+import { Book } from "@/types/books.types";
 
 interface BooksListProps {
   books: Book[];

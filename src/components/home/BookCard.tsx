@@ -19,8 +19,8 @@ import {
 } from "@/components/ui/dialog";
 import { Download, Send } from "lucide-react";
 import Image from "next/image";
-import { Book } from "./BooksList";
 import { useState } from "react";
+import { Book } from "@/types/books.types";
 
 interface BookCardProps {
   book: Book;
@@ -45,13 +45,24 @@ export const BookCard = ({
       </CardHeader>
       <CardContent>
         <div className="aspect-[3/4] relative overflow-hidden rounded-md">
-          <Image
-            src={book.cover}
-            alt={book.title}
-            width={300}
-            height={300}
-            className="object-cover w-full h-full"
-          />
+          {book.bookCoverImageUrl ? (
+            <Image
+              src={book?.bookCoverImageUrl}
+              alt={book.title}
+              width={300}
+              height={300}
+              className="object-cover w-full h-full"
+            />
+          ) : (
+            <div className="object-cover flex justify-center align-middle h-full">
+              <Image
+                src={"./5.svg"}
+                alt={book.title}
+                width={500}
+                height={500}
+              />
+            </div>
+          )}
         </div>
         <p className="mt-4 text-sm text-gray-600 line-clamp-2">
           {book.description}
