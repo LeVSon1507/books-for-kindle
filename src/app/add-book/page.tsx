@@ -43,27 +43,8 @@ import {
 } from "@/components/ui/popover";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { BookCategory, BookStatus } from "@/types/books.types";
 
-// Enums
-export enum BookStatus {
-  ACTIVE = "ACTIVE",
-  INACTIVE = "INACTIVE",
-  DRAFT = "DRAFT",
-}
-
-export enum BookCategory {
-  FICTION = "FICTION",
-  NON_FICTION = "NON_FICTION",
-  SCIENCE = "SCIENCE",
-  TECHNOLOGY = "TECHNOLOGY",
-  BUSINESS = "BUSINESS",
-  SELF_HELP = "SELF_HELP",
-  BIOGRAPHY = "BIOGRAPHY",
-  HISTORY = "HISTORY",
-  OTHER = "OTHER",
-}
-
-// Form schema using Zod
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   description: z.string().min(1, { message: "Description is required" }),
