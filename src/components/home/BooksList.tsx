@@ -3,6 +3,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { BookCard } from "./BookCard";
 import { Book } from "@/types/books.types";
+import axios from "axios";
+import { t } from "i18next";
 
 interface BooksListProps {
   books: Book[];
@@ -22,20 +24,33 @@ export const BooksList = ({ books = [], search }: BooksListProps) => {
 
   const handleSendToKindle = async (book: Book) => {
     try {
-      const response = await fetch("/api/send-to-kindle", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: kindleEmail,
-          bookUrl: book.epubUrl,
-          bookTitle: book.title,
-        }),
-      });
+      const result = await axios.post(
+        String(process.env.NEXT_PUBLIC_BACKEND_ENDPOINT),
+        {
+          to: kindleEmail,
+          cc: "easykindle@easy-kindle.shop",
+          templateEmailId: "d-2c7d53bfcba1497b81394d56ad713766",
+          bookId: book.id,
+          personalNote: t("home.personalNote.note"),
+        }
+      );
+      // const response = await fetch("/api/send-to-kindle", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     email: kindleEmail,
+      //     bookUrl: book.epubUrl,
+      //     bookTitle: book.title,
+      //   }),
+      // });
 
-      if (!response.ok) {
-        throw new Error("Failed to send to Kindle");
+      // if (!response.ok) {
+      //   throw new Error("Failed to send to Kindle");
+      // }
+      if (result.status !== 200) {
+        toast.error("Failed to send to Kindle!");
       }
 
       setKindleEmail("");

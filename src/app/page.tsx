@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { APP_COLOR, BOOKS } from "@/utils/constants";
+import { BOOKS } from "@/utils/constants";
 import { BooksList } from "@/components/home/BooksList";
 import { Introduction } from "@/components/home/Introduction";
 import { SearchBar } from "@/components/home/Search";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Books } from "@/types/books.types";
+import "@/locales/utils/i18n";
 
 export default function Home() {
   const [search, setSearch] = React.useState<string>("");
@@ -29,7 +30,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`min-h-screen bg-[${APP_COLOR}]`}>
+    <div className={`min-h-screen`}>
       {/* <CldImage
         alt="sample"
         src={""} // Use this sample image or upload your own via the Media Explorer

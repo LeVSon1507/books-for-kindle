@@ -10,9 +10,18 @@ import {
 } from "@/components/ui/tooltip";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export const Header = () => {
   const router = useRouter();
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("language", lng);
+  };
+
+  const currentLanguage = i18n.language;
 
   const NavButton = ({
     path,
@@ -65,7 +74,7 @@ export const Header = () => {
               height={70}
               className="text-primary"
             />
-            <h1 className="text-2xl font-bold text-[#d2b48c]">Easy Kindle</h1>
+            <h1 className={`text-2xl font-bold text-[#d2b48c]`}>Easy Kindle</h1>
           </div>
 
           <div className="flex items-center space-x-4">
@@ -73,13 +82,27 @@ export const Header = () => {
               <NavButton
                 path="/library"
                 iconSrc="/icon_app.svg"
-                label="Library"
+                label={currentLanguage === "en" ? "Library" : "Thư Viện"}
               />
               <NavButton
                 path="/add-book"
                 iconSrc="/kindle_books.svg"
-                label="Add book"
+                label={currentLanguage === "en" ? "Add Book" : "Thêm Sách"}
               />
+              <Button
+                className={`px-2 py-1 rounded ${
+                  i18n.language === "en"
+                    ? `bg-[#d2b48c] text-white`
+                    : "bg-gray-900 text-white"
+                }`}
+                onClick={
+                  i18n.language === "en"
+                    ? () => changeLanguage("vi")
+                    : () => changeLanguage("en")
+                }
+              >
+                {i18n.language === "en" ? "EN" : "VI"}
+              </Button>
               {/* <NavButton path="/about" iconSrc="/about.svg" label="About" />
               <NavButton
                 path="/settings"

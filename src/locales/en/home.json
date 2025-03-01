@@ -1,0 +1,68 @@
+{
+  "introduction": {
+    "title": "Unlock a World of Stories, Instantly.",
+    "description": "Dive into your next literary adventure with our vast, free Kindle library. Download in .epub or send directly to your Kindle for effortless reading. Your favorite books, just a click away.",
+    "supportAuthor": "If possible, please consider purchasing physical books to support the authors."
+  },
+  "personalNote": {
+    "note": "Sending you a good book about thinking to get rich. Enjoy reading!"
+  },
+  "search": {
+    "placeholderInput": "Search books...",
+    "button": "Search..."
+  },
+  "addBook": {
+    "title": "Add New Book",
+    "description": "Enter the details for the new book you want to add to the catalog.",
+    "form": {
+      "title": "Title *",
+      "titlePlaceholder": "Book title",
+      "author": "Author *",
+      "authorPlaceholder": "Author name",
+      "description": "Description *",
+      "descriptionPlaceholder": "Brief description of the book",
+      "longDescription": "Long Description",
+      "longDescriptionPlaceholder": "Detailed description of the book",
+      "price": "Price *",
+      "pricePlaceholder": "0.00",
+      "language": "Language *",
+      "languagePlaceholder": "e.g. English",
+      "status": "Status *",
+      "statusPlaceholder": "Select status",
+      "category": "Category *",
+      "categoryPlaceholder": "Select category",
+      "publisher": "Publisher",
+      "publisherPlaceholder": "Publisher name",
+      "publicationDate": "Publication Date",
+      "publicationDatePlaceholder": "Pick a date",
+      "isbn": "ISBN",
+      "isbnPlaceholder": "ISBN",
+      "bookCoverImageUrl": "Book Cover Image URL",
+      "bookCoverImageUrlPlaceholder": "https://...",
+      "epubUrl": "EPUB URL",
+      "epubUrlPlaceholder": "https://...",
+      "pdfUrl": "PDF URL",
+      "pdfUrlPlaceholder": "https://...",
+      "sampleUrl": "Sample URL",
+      "sampleUrlPlaceholder": "https://...",
+      "averageRating": "Average Rating *",
+      "averageRatingPlaceholder": "0.0",
+      "averageRatingDescription": "Value between 0-5",
+      "ratingCount": "Rating Count *",
+      "ratingCountPlaceholder": "0",
+      "isFeatured": "Featured",
+      "isFeaturedDescription": "Display this book as featured on the homepage",
+      "optional": "Optional",
+      "pickDate": "Pick a date"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "save": "Save Book",
+      "saving": "Saving..."
+    },
+    "messages": {
+      "success": "Book has been added successfully",
+      "error": "Failed to add book. Please try again."
+    }
+  }
+}

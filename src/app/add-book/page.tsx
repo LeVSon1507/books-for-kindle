@@ -5,29 +5,11 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Form } from "@/components/ui/form";
 import {
   Card,
   CardContent,
@@ -35,15 +17,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { BookCategory, BookStatus } from "@/types/books.types";
+import { CheckboxFormField } from "@/components/form-fields/CheckboxFormField";
+import { TextFormField } from "@/components/form-fields/TextFormField";
+import { TextareaFormField } from "@/components/form-fields/TextareaFormField";
+import { SelectFormField } from "@/components/form-fields/SelectFormField";
+import { DatePickerFormField } from "@/components/form-fields/DatePickerFormField";
+import { useTranslation } from "react-i18next";
+import "@/locales/utils/i18n";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -69,6 +50,7 @@ const formSchema = z.object({
 export default function AddBookPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation("home");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -108,399 +90,226 @@ export default function AddBookPage() {
 
       console.log("🚀 ~ onSubmit ~ data:", response.data);
 
-      toast.success("Book has been added successfully");
+      toast.success(t("addBook.messages.success"));
       //   router.push("/books");
     } catch (error) {
       console.error("Error adding book:", error);
-      toast.error("Failed to add book. Please try again.");
+      toast.error(t("addBook.messages.error"));
     } finally {
       setIsSubmitting(false);
     }
   }
 
+  // Convert enum values to options for select fields
+  const statusOptions = Object.values(BookStatus).map((status) => ({
+    value: status,
+    label: status,
+  }));
+
+  const categoryOptions = Object.values(BookCategory).map((category) => ({
+    value: category,
+    label: category.replace(/_/g, " "),
+  }));
+
   return (
     <div className="container mx-auto py-10">
       <Card>
         <CardHeader>
-          <CardTitle>Add New Book</CardTitle>
-          <CardDescription>
-            Enter the details for the new book you want to add to the catalog.
-          </CardDescription>
+          <CardTitle>{t("addBook.title")}</CardTitle>
+          <CardDescription>{t("addBook.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Title */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Title *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Book title" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.title")}
+                  placeholder={t("addBook.form.titlePlaceholder")}
+                  required
                 />
 
                 {/* Author */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="author"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Author *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Author name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.author")}
+                  placeholder={t("addBook.form.authorPlaceholder")}
+                  required
                 />
 
                 {/* Description */}
-                <FormField
+                <TextareaFormField
                   control={form.control}
                   name="description"
-                  render={({ field }) => (
-                    <FormItem className="col-span-full">
-                      <FormLabel>Description *</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Brief description of the book"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.description")}
+                  placeholder={t("addBook.form.descriptionPlaceholder")}
+                  className="col-span-full"
+                  required
                 />
 
                 {/* Long Description */}
-                <FormField
+                <TextareaFormField
                   control={form.control}
                   name="longDescription"
-                  render={({ field }) => (
-                    <FormItem className="col-span-full">
-                      <FormLabel>Long Description</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Detailed description of the book"
-                          className="min-h-32"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>Optional</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.longDescription")}
+                  placeholder={t("addBook.form.longDescriptionPlaceholder")}
+                  description={t("addBook.form.optional")}
+                  className="col-span-full"
                 />
 
                 {/* Price */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="price"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Price *</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="0.00"
-                          step="0.01"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.price")}
+                  placeholder={t("addBook.form.pricePlaceholder")}
+                  type="number"
+                  step="0.01"
+                  required
                 />
 
                 {/* Language */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="language"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Language *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g. English" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.language")}
+                  placeholder={t("addBook.form.languagePlaceholder")}
+                  required
                 />
 
                 {/* Status */}
-                <FormField
+                <SelectFormField
                   control={form.control}
                   name="status"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Status *</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select status" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.values(BookStatus).map((status) => (
-                            <SelectItem key={status} value={status}>
-                              {status}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.status")}
+                  placeholder={t("addBook.form.statusPlaceholder")}
+                  options={statusOptions}
+                  required
                 />
 
                 {/* Category */}
-                <FormField
+                <SelectFormField
                   control={form.control}
                   name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category *</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.values(BookCategory).map((category) => (
-                            <SelectItem key={category} value={category}>
-                              {category.replace(/_/g, " ")}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.category")}
+                  placeholder={t("addBook.form.categoryPlaceholder")}
+                  options={categoryOptions}
+                  required
                 />
 
                 {/* Publisher */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="publisher"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Publisher</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Publisher name" {...field} />
-                      </FormControl>
-                      <FormDescription>Optional</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.publisher")}
+                  placeholder={t("addBook.form.publisherPlaceholder")}
+                  description={t("addBook.form.optional")}
                 />
 
                 {/* Publication Date */}
-                <FormField
+                <DatePickerFormField
                   control={form.control}
                   name="publicationDate"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Publication Date</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              className="w-full pl-3 text-left font-normal"
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormDescription>Optional</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.publicationDate")}
+                  placeholder={t("addBook.form.pickDate")}
+                  description={t("addBook.form.optional")}
                 />
 
                 {/* ISBN */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="isbn"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>ISBN</FormLabel>
-                      <FormControl>
-                        <Input placeholder="ISBN" {...field} />
-                      </FormControl>
-                      <FormDescription>Optional</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.isbn")}
+                  placeholder={t("addBook.form.isbnPlaceholder")}
+                  description={t("addBook.form.optional")}
                 />
 
                 {/* Book Cover Image URL */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="bookCoverImageUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Book Cover Image URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://..." {...field} />
-                      </FormControl>
-                      <FormDescription>Optional</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.bookCoverImageUrl")}
+                  placeholder={t("addBook.form.bookCoverImageUrlPlaceholder")}
+                  description={t("addBook.form.optional")}
                 />
 
                 {/* EPUB URL */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="epubUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>EPUB URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://..." {...field} />
-                      </FormControl>
-                      <FormDescription>Optional</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.epubUrl")}
+                  placeholder={t("addBook.form.epubUrlPlaceholder")}
+                  description={t("addBook.form.optional")}
                 />
 
                 {/* PDF URL */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="pdfUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>PDF URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://..." {...field} />
-                      </FormControl>
-                      <FormDescription>Optional</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.pdfUrl")}
+                  placeholder={t("addBook.form.pdfUrlPlaceholder")}
+                  description={t("addBook.form.optional")}
                 />
 
                 {/* Sample URL */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="sampleUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Sample URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://..." {...field} />
-                      </FormControl>
-                      <FormDescription>Optional</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.sampleUrl")}
+                  placeholder={t("addBook.form.sampleUrlPlaceholder")}
+                  description={t("addBook.form.optional")}
                 />
 
                 {/* Average Rating */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="averageRating"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Average Rating *</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="0.0"
-                          min="0"
-                          max="5"
-                          step="0.1"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>Value between 0-5</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.averageRating")}
+                  placeholder={t("addBook.form.averageRatingPlaceholder")}
+                  description={t("addBook.form.averageRatingDescription")}
+                  type="number"
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  required
                 />
+
                 {/* Rating Count */}
-                <FormField
+                <TextFormField
                   control={form.control}
                   name="ratingCount"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Rating Count *</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="0"
-                          min="0"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.ratingCount")}
+                  placeholder={t("addBook.form.ratingCountPlaceholder")}
+                  type="number"
+                  min="0"
+                  required
                 />
 
                 {/* Is Featured */}
-                <FormField
+                <CheckboxFormField
                   control={form.control}
                   name="isFeatured"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel>Featured</FormLabel>
-                        <FormDescription>
-                          Display this book as featured on the homepage
-                        </FormDescription>
-                      </div>
-                    </FormItem>
-                  )}
+                  label={t("addBook.form.isFeatured")}
+                  description={t("addBook.form.isFeaturedDescription")}
                 />
-                <div className="flex justify-end space-x-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => router.back()}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Saving..." : "Save Book"}
-                  </Button>
-                </div>
+              </div>
+
+              <div className="flex justify-end space-x-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => router.back()}
+                >
+                  {t("addBook.buttons.cancel")}
+                </Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting
+                    ? t("addBook.buttons.saving")
+                    : t("addBook.buttons.save")}
+                </Button>
               </div>
             </form>
           </Form>

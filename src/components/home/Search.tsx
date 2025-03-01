@@ -5,12 +5,15 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 import Image from "next/image";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useTranslation } from "react-i18next";
 
 export const SearchBar = ({
   setSearch,
 }: {
   setSearch: (value: string) => void;
 }) => {
+  const { t } = useTranslation("home");
+
   const handleSearch = (value: string) => {
     setSearch(value);
   };
@@ -21,7 +24,7 @@ export const SearchBar = ({
         <Search className=" cursor-pointer absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
         <Input
           onChange={(e) => handleSearch(e.target.value)}
-          placeholder="Search books..."
+          placeholder={`${t("search.placeholderInput")}...`}
           className="pl-10 w-full py-5"
         />
       </div>
@@ -37,7 +40,7 @@ export const SearchBar = ({
           />
         </TooltipTrigger>
         <TooltipContent className="text-sm" side="right">
-          <p>Search</p>
+          <p>{t("search.button")}</p>
         </TooltipContent>
       </Tooltip>
     </div>

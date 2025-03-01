@@ -1,0 +1,68 @@
+{
+  "introduction": {
+    "title": "Khám phá thế giới sách ngay với Easy Kindle.",
+    "description": "Trải nghiệm thư viện Kindle miễn phí với hàng ngàn tác phẩm. Tải về dạng .epub hoặc gửi trực tiếp đến Kindle của bạn.",
+    "supportAuthor": "Nếu có điều kiện, hãy mua sách giấy để ủng hộ tác giả."
+  },
+  "personalNote": {
+    "note": "Gửi bạn cuốn sách hay về tư duy làm giàu. Chúc bạn đọc vui vẻ!"
+  },
+  "search": {
+    "placeholderInput": "Tìm kiếm sách...",
+    "button": "Tìm kiếm"
+  },
+  "addBook": {
+    "title": "Thêm Sách Mới",
+    "description": "Nhập thông tin chi tiết cho cuốn sách mới bạn muốn thêm vào danh mục.",
+    "form": {
+      "title": "Tiêu đề *",
+      "titlePlaceholder": "Tiêu đề sách",
+      "author": "Tác giả *",
+      "authorPlaceholder": "Tên tác giả",
+      "description": "Mô tả *",
+      "descriptionPlaceholder": "Mô tả ngắn về sách",
+      "longDescription": "Mô tả chi tiết",
+      "longDescriptionPlaceholder": "Mô tả chi tiết về sách",
+      "price": "Giá *",
+      "pricePlaceholder": "0.00",
+      "language": "Ngôn ngữ *",
+      "languagePlaceholder": "Ví dụ: Tiếng Việt",
+      "status": "Trạng thái *",
+      "statusPlaceholder": "Chọn trạng thái",
+      "category": "Thể loại *",
+      "categoryPlaceholder": "Chọn thể loại",
+      "publisher": "Nhà xuất bản",
+      "publisherPlaceholder": "Tên nhà xuất bản",
+      "publicationDate": "Ngày xuất bản",
+      "publicationDatePlaceholder": "Chọn ngày",
+      "isbn": "ISBN",
+      "isbnPlaceholder": "ISBN",
+      "bookCoverImageUrl": "URL Ảnh bìa sách",
+      "bookCoverImageUrlPlaceholder": "https://...",
+      "epubUrl": "URL EPUB",
+      "epubUrlPlaceholder": "https://...",
+      "pdfUrl": "URL PDF",
+      "pdfUrlPlaceholder": "https://...",
+      "sampleUrl": "URL Mẫu",
+      "sampleUrlPlaceholder": "https://...",
+      "averageRating": "Đánh giá trung bình *",
+      "averageRatingPlaceholder": "0.0",
+      "averageRatingDescription": "Giá trị từ 0-5",
+      "ratingCount": "Số lượng đánh giá *",
+      "ratingCountPlaceholder": "0",
+      "isFeatured": "Nổi bật",
+      "isFeaturedDescription": "Hiển thị sách này như mục nổi bật trên trang chủ",
+      "optional": "Tùy chọn",
+      "pickDate": "Chọn ngày"
+    },
+    "buttons": {
+      "cancel": "Hủy",
+      "save": "Lưu Sách",
+      "saving": "Đang lưu..."
+    },
+    "messages": {
+      "success": "Sách đã được thêm thành công",
+      "error": "Không thể thêm sách. Vui lòng thử lại."
+    }
+  }
+}

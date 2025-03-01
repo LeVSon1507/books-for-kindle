@@ -1,17 +1,19 @@
 import { APP_COLOR } from "@/utils/constants";
+import { useTranslation } from "react-i18next";
 
 export const Introduction = () => {
+  const { t } = useTranslation("home");
+
   return (
     <section className="py-20 text-center">
       <h1
-        className={`text-4xl text-[${APP_COLOR}] font-bold tracking-tight mb-4`}
+        className="text-4xl font-bold tracking-tight mb-4"
+        style={{ color: APP_COLOR }}
       >
-        Unlock a World of Stories, Instantly.
+        {t("introduction.title")}
       </h1>
       <p className="text-gray-600 max-w-2xl mx-auto">
-        Dive into your next literary adventure with our vast, free Kindle
-        library. Download in .epub or send directly to your Kindle for
-        effortless reading. Your favorite books, just a click away.
+        {t("introduction.description")} {t("introduction.supportAuthor")}
       </p>
     </section>
   );
